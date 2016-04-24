@@ -10,7 +10,10 @@ module.exports = {
     },
     js: {
         src: path.resolve(root, 'src/scripts/'),
-        entry: path.resolve(root, 'src/scripts/main.js'),
+        entry: {
+          main: path.resolve(root, 'src/scripts/main.js'),
+          client: path.resolve(root, 'src/scripts/client.js')
+        },
         dest: path.resolve(root, 'dist/'),
         watchSrc: path.resolve(root, 'src/scripts/**/*.*')
     },
