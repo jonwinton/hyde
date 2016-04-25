@@ -1,30 +1,38 @@
 'use strict';
 
+var webpack = require('webpack');
 var config = require('./config');
+var path = require('path');
 
 module.exports = {
+    target: 'node',
     entry: config.js.entry,
     output: {
         path: config.js.dest,
         filename: '[name].js',
     },
+    plugins: [
+
+    ],
     module: {
+
         loaders: [{
                 test: /\.js?$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules/,
                 loader: 'babel', // 'babel-loader' is also a legal name to reference
                 query: {
                     presets: ['es2015']
                 }
-            }
+            },
+            { test: /\.tag$/, exclude: /node_modules/, loader: 'tag' }
 
         ]
     },
-    node: {
-        __dirname: false,
-        __filename: false
+    resolve: {
+        alias: {
+            riot: path.resolve(config.root, 'node_modules/riot/riot.min.js')
+        }
     },
-    resolve: {},
     externals: [
         (function() {
             var IGNORES = [
@@ -36,6 +44,11 @@ module.exports = {
                 }
                 return callback();
             };
-        })()
-    ]
+        })(),
+        'node_modules'
+    ],
+    node: {
+        __dirname: false,
+        __filename: false
+    }
 };
